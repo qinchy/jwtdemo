@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * @author Administrator
  */
-public class HTTPBearerAuthorizeAttribute implements Filter{
+public class HttpBearerAuthorizeAttribute implements Filter{
     @Autowired  
     private Audience audienceEntity;
   

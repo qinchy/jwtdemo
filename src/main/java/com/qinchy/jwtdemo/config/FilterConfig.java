@@ -1,7 +1,7 @@
 package com.qinchy.jwtdemo.config;
 
 import com.qinchy.jwtdemo.filter.HttpBasicAuthorizeAttribute;
-import com.qinchy.jwtdemo.filter.HTTPBearerAuthorizeAttribute;
+import com.qinchy.jwtdemo.filter.HttpBearerAuthorizeAttribute;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean jwtFilterRegistrationBean(){
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        HTTPBearerAuthorizeAttribute httpBearerFilter = new HTTPBearerAuthorizeAttribute();
+        HttpBearerAuthorizeAttribute httpBearerFilter = new HttpBearerAuthorizeAttribute();
         registrationBean.setFilter(httpBearerFilter);
         List<String> urlPatterns = new ArrayList<String>();
         urlPatterns.add("/user/getusers");
