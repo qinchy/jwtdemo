@@ -1,6 +1,6 @@
 package com.qinchy.jwtdemo.controller;
 
-import com.qinchy.jwtdemo.common.JWTHelper;
+import com.qinchy.jwtdemo.common.JwtHelper;
 import com.qinchy.jwtdemo.common.MD5Util;
 import com.qinchy.jwtdemo.model.*;
 import com.qinchy.jwtdemo.repository.UserInfoRepository;
@@ -29,8 +29,6 @@ public class TokenController {
                 return resultMsg;
             }
 
-            //验证码校验在后面章节添加
-
             // 验证用户名密码
             UserInfo user = userRepositoy.findUserInfoByName(loginPara.getUserName());
             if (user == null) {
@@ -48,7 +46,7 @@ public class TokenController {
             }
 
             //拼装accessToken  
-            String accessToken = JWTHelper.createJWT(loginPara.getUserName(), String.valueOf(user.getName()),
+            String accessToken = JwtHelper.createJWT(loginPara.getUserName(), String.valueOf(user.getId()),
                     user.getRole(), audienceEntity.getClientId(), audienceEntity.getName(),
                     audienceEntity.getExpiresSecond() * 1000, audienceEntity.getBase64Secret());
 

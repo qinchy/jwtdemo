@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * @author Administrator
  */
-public class JWTHelper {
+public class JwtHelper {
     public static Claims parseJWT(String jsonWebToken, String base64Security) {
         try {
             Claims claims = Jwts.parser()

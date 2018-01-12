@@ -1,6 +1,6 @@
 package com.qinchy.jwtdemo.config;
 
-import com.qinchy.jwtdemo.filter.HTTPBasicAuthorizeAttribute;
+import com.qinchy.jwtdemo.filter.HttpBasicAuthorizeAttribute;
 import com.qinchy.jwtdemo.filter.HTTPBearerAuthorizeAttribute;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean basicFilterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        HTTPBasicAuthorizeAttribute httpBasicFilter = new HTTPBasicAuthorizeAttribute();
+        HttpBasicAuthorizeAttribute httpBasicFilter = new HttpBasicAuthorizeAttribute();
         registrationBean.setFilter(httpBasicFilter);
         List<String> urlPatterns = new ArrayList<String>();
         urlPatterns.add("/user/getuser");
@@ -39,7 +39,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean  filterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        HTTPBasicAuthorizeAttribute httpBasicFilter = new HTTPBasicAuthorizeAttribute();
+        HttpBasicAuthorizeAttribute httpBasicFilter = new HttpBasicAuthorizeAttribute();
         registrationBean.setFilter(httpBasicFilter);
         List<String> urlPatterns = new ArrayList<String>();
         urlPatterns.add("/user/*");

@@ -1,7 +1,7 @@
 package com.qinchy.jwtdemo.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qinchy.jwtdemo.common.JWTHelper;
+import com.qinchy.jwtdemo.common.JwtHelper;
 import com.qinchy.jwtdemo.model.Audience;
 import com.qinchy.jwtdemo.model.ResultMsg;
 import com.qinchy.jwtdemo.model.ResultStatusCode;
@@ -40,7 +40,7 @@ public class HTTPBearerAuthorizeAttribute implements Filter{
             {  
                   
                 auth = auth.substring(7, auth.length());   
-                if (JWTHelper.parseJWT(auth, audienceEntity.getBase64Secret()) != null)
+                if (JwtHelper.parseJWT(auth, audienceEntity.getBase64Secret()) != null)
                 {  
                     chain.doFilter(request, response);  
                     return;  

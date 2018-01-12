@@ -12,10 +12,10 @@ public class AudienceConfig {
     @Bean
     public Audience getAudience(){
         Audience audienceEntity = new Audience();
-        audienceEntity.setBase64Secret("test");
-        audienceEntity.setClientId("1");
+        audienceEntity.setBase64Secret("AUDIENCE");
+        audienceEntity.setClientId("AUDIENCE_ID1");
         audienceEntity.setExpiresSecond(7200L);
-        audienceEntity.setName("test");
+        audienceEntity.setName("AUDIENCE_TEST");
         return audienceEntity;
     }
 }

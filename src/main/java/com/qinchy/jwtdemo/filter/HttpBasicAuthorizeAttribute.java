@@ -4,17 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinchy.jwtdemo.model.ResultMsg;
 import com.qinchy.jwtdemo.model.ResultStatusCode;
 import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author Administrator
+ * @Desc 请求时需要在header中加入Authorization，value = "basic cWluY3k6MTIzNDU2"  ,
+ *        其中cWluY3k6MTIzNDU2是通过BASE64Encoder.encode("qincy:123456".getBytes())出来的。
+ */
 @SuppressWarnings("restriction")
-public class HTTPBasicAuthorizeAttribute implements Filter {
+public class HttpBasicAuthorizeAttribute implements Filter {
 
-    private static String Name = "test";
-    private static String Password = "test";
+    private static String Name = "qincy";
+    private static String Password = "123456";
 
     @Override
     public void destroy() {
@@ -55,11 +61,11 @@ public class HTTPBasicAuthorizeAttribute implements Filter {
                     auth = auth.substring(6, auth.length());
                     String decodedAuth = getFromBASE64(auth);
                     if (decodedAuth != null) {
-                        String[] UserArray = decodedAuth.split(":");
+                        String[] userArray = decodedAuth.split(":");
 
-                        if (UserArray != null && UserArray.length == 2) {
-                            if (UserArray[0].compareTo(Name) == 0
-                                    && UserArray[1].compareTo(Password) == 0) {
+                        if (userArray != null && userArray.length == 2) {
+                            if (userArray[0].compareTo(Name) == 0
+                                    && userArray[1].compareTo(Password) == 0) {
                                 return ResultStatusCode.OK;
                             }
                         }
@@ -74,8 +80,9 @@ public class HTTPBasicAuthorizeAttribute implements Filter {
     }
 
     private String getFromBASE64(String s) {
-        if (s == null)
+        if (s == null){
             return null;
+        }
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             byte[] b = decoder.decodeBuffer(s);
@@ -84,5 +91,11 @@ public class HTTPBasicAuthorizeAttribute implements Filter {
             return null;
         }
     }
+
+//    public static void main(String[] args) {
+//        BASE64Encoder encoder =  new BASE64Encoder();
+//        String s1 =encoder.encode("qincy:123456".getBytes());
+//        System.out.println(s1);
+//    }
 
 }  
