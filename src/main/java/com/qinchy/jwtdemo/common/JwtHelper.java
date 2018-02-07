@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -14,6 +16,9 @@ import java.util.Date;
  * @author Administrator
  */
 public class JwtHelper {
+
+    private static Logger logger = LoggerFactory.getLogger(JwtHelper.class);
+
     public static Claims parseJWT(String jsonWebToken, String base64Security) {
         try {
             Claims claims = Jwts.parser()
@@ -21,7 +26,7 @@ public class JwtHelper {
                     .parseClaimsJws(jsonWebToken).getBody();
             return claims;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("解析token时出错", ex);
             return null;
         }
     }
