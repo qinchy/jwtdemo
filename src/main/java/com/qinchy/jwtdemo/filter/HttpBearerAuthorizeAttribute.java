@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * @author Administrator
  * @Desc 这是Bearer的验证方式，需要传入获取到的accessToken
- *      请求http://localhost:8080/jwtdemo/user/getuser时需要在header中加入Authorization，value = "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJ1bmlxdWVfbmFtZSI6InFpbmN5IiwidXNlcmlkIjoiMSIsImlzcyI6IkFVRElFTkNFX1RFU1QiLCJhdWQiOiJBVURJRU5DRV9JRDEiLCJleHAiOjE1MTc5NzY3NTIsIm5iZiI6MTUxNzk2OTU1Mn0.KqGh4XoAzuYZ8Y80osDxsGGROZ9U5v9FPzvQeOfJMsE"  ,
+ *      请求http://localhost:8080/jwtdemo/user/getusers时需要在header中加入Authorization，value = "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4iLCJ1bmlxdWVfbmFtZSI6InFpbmN5IiwidXNlcmlkIjoiMSIsImlzcyI6IkFVRElFTkNFX1RFU1QiLCJhdWQiOiJBVURJRU5DRV9JRDEiLCJleHAiOjE1MTc5NzY3NTIsIm5iZiI6MTUxNzk2OTU1Mn0.KqGh4XoAzuYZ8Y80osDxsGGROZ9U5v9FPzvQeOfJMsE"  ,
  *        其中bearer是通过http://localhost:8080/jwtdemo/oauth/token接口获取到的token。调用token接口post，body为raw的json方式，{"clientId":"AUDIENCE_ID1","userName":"qincy","password":"123456"}
  *        token数据格式如下：
  *        {
