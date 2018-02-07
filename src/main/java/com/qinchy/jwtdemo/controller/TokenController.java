@@ -32,8 +32,8 @@ public class TokenController {
             // 验证用户名密码
             UserInfo user = userRepositoy.findUserInfoByName(loginPara.getUserName());
             if (user == null) {
-                resultMsg = new ResultMsg(ResultStatusCode.INVALID_PASSWORD.getErrcode(),
-                        ResultStatusCode.INVALID_PASSWORD.getErrmsg(), null);
+                resultMsg = new ResultMsg(ResultStatusCode.INVALID_USERNAME.getErrcode(),
+                        ResultStatusCode.INVALID_USERNAME.getErrmsg(), null);
                 return resultMsg;
             } else {
                 String md5Password = MD5Util.getMD5(loginPara.getPassword() + user.getSalt());
@@ -58,7 +58,6 @@ public class TokenController {
             resultMsg = new ResultMsg(ResultStatusCode.OK.getErrcode(),
                     ResultStatusCode.OK.getErrmsg(), accessTokenEntity);
             return resultMsg;
-
         } catch (Exception ex) {
             resultMsg = new ResultMsg(ResultStatusCode.SYSTEM_ERR.getErrcode(),
                     ResultStatusCode.SYSTEM_ERR.getErrmsg(), null);
