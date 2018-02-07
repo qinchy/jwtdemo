@@ -13,7 +13,8 @@ import java.io.IOException;
 
 /**
  * @author Administrator
- * @Desc 请求时需要在header中加入Authorization，value = "basic cWluY3k6MTIzNDU2"  ,
+ * @Desc 这是基本的验证方式，只需要用户名+密码，然后传入用户名和密码通过base64编码后的字符串即可
+ *        请求http://localhost:8080/jwtdemo/user/getuser时需要在header中加入Authorization，value = "basic cWluY3k6MTIzNDU2"  ,
  *        其中cWluY3k6MTIzNDU2是通过BASE64Encoder.encode("qincy:123456".getBytes())出来的。
  */
 @SuppressWarnings("restriction")
