@@ -1,8 +1,14 @@
 package com.qinchy.jwtdemo.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qinchy.jwtdemo.common.MD5Util;
 import com.qinchy.jwtdemo.model.ResultMsg;
 import com.qinchy.jwtdemo.model.ResultStatusCode;
+import com.qinchy.jwtdemo.model.UserInfo;
+import com.qinchy.jwtdemo.repository.UserInfoRepository;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -20,8 +26,8 @@ import java.io.IOException;
 @SuppressWarnings("restriction")
 public class HttpBasicAuthorizeAttribute implements Filter {
 
-    private static String Name = "qincy";
-    private static String Password = "123456";
+    @Autowired
+    private static UserInfoRepository userRepositoy;
 
     @Override
     public void destroy() {
@@ -50,6 +56,7 @@ public class HttpBasicAuthorizeAttribute implements Filter {
 
     @Override
     public void init(FilterConfig arg0) throws ServletException {
+
     }
 
     private ResultStatusCode checkHTTPBasicAuthorize(ServletRequest request) {
@@ -63,11 +70,22 @@ public class HttpBasicAuthorizeAttribute implements Filter {
                     String decodedAuth = getFromBASE64(auth);
                     if (decodedAuth != null) {
                         String[] userArray = decodedAuth.split(":");
-
                         if (userArray != null && userArray.length == 2) {
-                            if (userArray[0].compareTo(Name) == 0
-                                    && userArray[1].compareTo(Password) == 0) {
-                                return ResultStatusCode.OK;
+                            String name = userArray[0];
+                            // 上面Autowired不能自动注入，这里从BeanFactory中重新取一次
+                            if(null == userRepositoy){
+                                BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
+                                userRepositoy = (UserInfoRepository) factory.getBean(UserInfoRepository.class);
+                            }
+                            UserInfo userInfo = userRepositoy.findUserInfoByName(name);
+                            if(null != userInfo){
+                                String salt = userInfo.getSalt();
+                                String password = userArray[1];
+                                String md5Password = MD5Util.getMD5(password + salt);
+                                if (userArray[0].compareTo(userInfo.getName()) == 0
+                                        && md5Password.compareTo(userInfo.getPassword()) == 0) {
+                                    return ResultStatusCode.OK;
+                                }
                             }
                         }
                     }
