@@ -82,8 +82,7 @@ public class HttpBasicAuthorizeAttribute implements Filter {
                                 String salt = userInfo.getSalt();
                                 String password = userArray[1];
                                 String md5Password = MD5Util.getMD5(password + salt);
-                                if (userArray[0].compareTo(userInfo.getName()) == 0
-                                        && md5Password.compareTo(userInfo.getPassword()) == 0) {
+                                if (md5Password.compareTo(userInfo.getPassword()) == 0) {
                                     return ResultStatusCode.OK;
                                 }
                             }
