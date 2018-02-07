@@ -10,7 +10,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -55,8 +54,14 @@ public class HttpBasicAuthorizeAttribute implements Filter {
     }
 
     @Override
-    public void init(FilterConfig arg0) throws ServletException {
+    public void init(FilterConfig fConfig) throws ServletException {
+        ServletContext sc = fConfig.getServletContext();
+        BeanFactory factory = (BeanFactory) WebApplicationContextUtils.getWebApplicationContext(sc);
 
+        // userRepositoy的Autowired不能只能装配上，这里手动从BeanFactory里取
+        if (factory != null && factory.getBean(UserInfoRepository.class) != null && userRepositoy == null) {
+            userRepositoy = (UserInfoRepository) factory.getBean(UserInfoRepository.class);
+        }
     }
 
     private ResultStatusCode checkHTTPBasicAuthorize(ServletRequest request) {
@@ -72,11 +77,6 @@ public class HttpBasicAuthorizeAttribute implements Filter {
                         String[] userArray = decodedAuth.split(":");
                         if (userArray != null && userArray.length == 2) {
                             String name = userArray[0];
-                            // 上面Autowired不能自动注入，这里从BeanFactory中重新取一次
-                            if(null == userRepositoy){
-                                BeanFactory factory = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-                                userRepositoy = (UserInfoRepository) factory.getBean(UserInfoRepository.class);
-                            }
                             UserInfo userInfo = userRepositoy.findUserInfoByName(name);
                             if(null != userInfo){
                                 String salt = userInfo.getSalt();
