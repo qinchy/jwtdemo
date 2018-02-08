@@ -2,6 +2,7 @@ package com.qinchy.jwtdemo.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qinchy.jwtdemo.common.MD5Util;
+import com.qinchy.jwtdemo.config.AuthorizeType;
 import com.qinchy.jwtdemo.model.ResultMsg;
 import com.qinchy.jwtdemo.model.ResultStatusCode;
 import com.qinchy.jwtdemo.model.UserInfo;
@@ -70,7 +71,7 @@ public class HttpBasicAuthorizeAttribute implements Filter {
             String auth = httpRequest.getHeader("Authorization");
             if ((auth != null) && (auth.length() > 6)) {
                 String HeadStr = auth.substring(0, 5).toLowerCase();
-                if (HeadStr.compareTo("basic") == 0) {
+                if (HeadStr.compareTo(AuthorizeType.BASIC_AUTH.getType()) == 0) {
                     auth = auth.substring(6, auth.length());
                     String decodedAuth = getFromBASE64(auth);
                     if (decodedAuth != null) {
